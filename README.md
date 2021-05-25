@@ -6,6 +6,14 @@
 2.git checkout develop
 3.yarn install
 4.yarn start
+5.root 디렉토리에 config.js 생성 후 아래와 같은 형식으로 작성
+	{
+  	module.exports = {
+  		secret: 'asldjboiqwenc',
+  		mongodbUri: 'mongodb://<id>:<pwd>@<ip>:<port>/',
+  		serverURL: 'http(s)://<domain>:<port>',
+	};
+}
 </pre>
 
 <h1>코드 작성전 유의사항</h1>
