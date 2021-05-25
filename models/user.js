@@ -6,6 +6,7 @@ const config = require('../config');
 const User = new Schema({
   username: String,
   password: String,
+  phonenumber: String,
   admin: { type: Boolean, default: false },
 });
 
