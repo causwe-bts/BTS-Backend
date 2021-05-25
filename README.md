@@ -4,9 +4,10 @@
 <pre>
 1.git clone repository_name
 2.git checkout develop
-3.yarn install
-4.yarn start
-5.root 디렉토리에 config.js 생성 후 아래와 같은 형식으로 작성
+3.npm install -g yarn
+4.yarn install
+5.yarn start
+6.root 디렉토리에 config.js 생성 후 아래와 같은 형식으로 작성
 {
   	module.exports = {
   		secret: 'asldjboiqwenc',
