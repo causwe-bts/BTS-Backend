@@ -1,5 +1,6 @@
 const jwt = require('jsonwebtoken');
 const User = require('../../../models/user');
+const Order = require('../../../models/order');
 
 /*
     POST /api/user/signup
@@ -134,9 +135,23 @@ exports.postSignIn = (req, res) => {
 */
 
 exports.getOrderList = (req, res) => {
-  console.log('do something here');
   // respond to the client
-  res.json({
-    message: 'success',
-  });
+  const { username } = req.decoded;
+
+  // respond the token
+  const respond = (userOrders) => {
+    res.json({
+      message: 'success',
+      userOrders,
+    });
+  };
+
+  // error occured
+  const onError = (error) => {
+    res.status(403).json({
+      message: error.message,
+    });
+  };
+
+  Order.findByUserName(username).then(respond).catch(onError);
 };

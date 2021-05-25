@@ -29,4 +29,9 @@ Order.statics.create = function (orderInfo) {
   return newOrder.save();
 };
 
+// find all menus
+Order.statics.findByUserName = function (orderer) {
+  return this.find({ orderer }).exec();
+};
+
 module.exports = mongoose.model('Order', Order);
