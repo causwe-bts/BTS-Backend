@@ -7,11 +7,11 @@
 3.yarn install
 4.yarn start
 5.root 디렉토리에 config.js 생성 후 아래와 같은 형식으로 작성
-	{
+{
   	module.exports = {
   		secret: 'asldjboiqwenc',
-  		mongodbUri: 'mongodb://<id>:<pwd>@<ip>:<port>/',
-  		serverURL: 'http(s)://<domain>:<port>',
+  		mongodbUri: 'mongodb://id:pwd@ip:port/',
+  		serverURL: 'http(s)://domain:port',
 	};
 }
 </pre>
@@ -19,8 +19,8 @@
 <h1>코드 작성전 유의사항</h1>
 <pre>
 1. vscode 설치
-2. vscode market에서 prettierrc 설치
-3. vscode market에서 eslintrc 설치
+2. vscode market에서 prettier 설치
+3. vscode market에서 eslint 설치
 </pre>
 
 <h1>저장할때마다 코드 자동 prettieerc & eslintrc 적용하는 방법</h1>
