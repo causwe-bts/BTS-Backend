@@ -145,10 +145,26 @@ exports.postSignIn = (req, res) => {
 */
 
 exports.getOrderList = (req, res) => {
-  console.log('do something here');
-  res.json({
-    message: 'success',
-  });
+  if (!req.decoded.admin) {
+    return res.status(403).json({
+      message: 'Invalid access',
+    });
+  } else {
+    Order.find({ status: { $ne: 'Received' } }, (err, doc) => {
+      if (err) {
+        return res.status(403).json({
+          message: 'No data',
+        });
+      } else {
+        return res.status(200).json({
+          message: 'success',
+          body: {
+            orderList: doc,
+          },
+        });
+      }
+    });
+  }
 };
 
 /*
@@ -156,10 +172,30 @@ exports.getOrderList = (req, res) => {
 */
 
 exports.getSoldList = (req, res) => {
-  console.log('do something here');
-  res.json({
-    message: 'success',
-  });
+  if (!req.decoded.admin) {
+    return res.status(403).json({
+      message: 'Invalid access',
+    });
+  } else {
+    Order.find({ status: 'Received' }, (err, doc) => {
+      if (err) {
+        return res.status(403).json({
+          message: 'No data',
+        });
+      } else {
+        return res.status(200).json({
+          message: 'success',
+          body: {
+            orderList: doc,
+          },
+        });
+      }
+    });
+  }
+  // console.log('do something here');
+  // res.json({
+  //   message: 'success',
+  // });
 };
 
 /*
@@ -170,10 +206,27 @@ exports.getSoldList = (req, res) => {
 */
 
 exports.postOrderManage = (req, res) => {
-  console.log('do something here');
-  res.json({
-    message: 'success',
-  });
+  if (!req.decoded.admin) {
+    return res.status(403).json({
+      message: 'Invalid access',
+    });
+  } else {
+    Order.findOneAndUpdate(
+      { id: req.body.id },
+      { status: req.body.status },
+      (err, doc) => {
+        if (err) {
+          return res.status(403).json({
+            message: 'No data',
+          });
+        } else {
+          return res.status(200).json({
+            message: 'success',
+          });
+        }
+      }
+    );
+  }
 };
 
 /*
