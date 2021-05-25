@@ -41,7 +41,7 @@ exports.postSignUp = (req, res) => {
   // respond to the client
   const respond = (isAdmin) => {
     res.json({
-      message: 'registered successfully',
+      message: 'success',
       admin: isAdmin ? true : false,
     });
   };
@@ -113,7 +113,7 @@ exports.postSignIn = (req, res) => {
   // respond the token
   const respond = (token) => {
     res.json({
-      message: 'logged in successfully',
+      message: 'success',
       token,
     });
   };
