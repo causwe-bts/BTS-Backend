@@ -1,6 +1,16 @@
 const jwt = require('jsonwebtoken');
 const User = require('../../../models/user');
+const Store = require('../../../models/store');
+const mongoose = require('mongoose');
+const e = require('express');
+const Schema = mongoose.Schema;
 
+const OrderList = new Schema({
+  id: Number,
+  status: String,
+});
+Order = mongoose.model('OrderList', OrderList);
+//////////////////////////////
 /*
     POST /api/store/signup
     {
@@ -30,12 +40,13 @@ exports.postSignUp = (req, res) => {
 
   // assign admin if count is 1
   const assign = (count) => {
-    if (count === 1) {
-      return newUser.assignAdmin();
-    } else {
-      // if not, return a promise that returns false
-      return Promise.resolve(false);
-    }
+    // if (count === 1) {
+    //   return newUser.assignAdmin();
+    // } else {
+    //   // if not, return a promise that returns false
+    //   return Promise.resolve(false);
+    // }
+    return newUser.assignAdmin();
   };
 
   // respond to the client
@@ -134,10 +145,26 @@ exports.postSignIn = (req, res) => {
 */
 
 exports.getOrderList = (req, res) => {
-  console.log('do something here');
-  res.json({
-    message: 'success',
-  });
+  if (!req.decoded.admin) {
+    return res.status(403).json({
+      message: 'Invalid access',
+    });
+  } else {
+    Order.find({ status: { $ne: 'Received' } }, (err, doc) => {
+      if (err) {
+        return res.status(403).json({
+          message: 'No data',
+        });
+      } else {
+        return res.status(200).json({
+          message: 'success',
+          body: {
+            orderList: doc,
+          },
+        });
+      }
+    });
+  }
 };
 
 /*
@@ -145,10 +172,30 @@ exports.getOrderList = (req, res) => {
 */
 
 exports.getSoldList = (req, res) => {
-  console.log('do something here');
-  res.json({
-    message: 'success',
-  });
+  if (!req.decoded.admin) {
+    return res.status(403).json({
+      message: 'Invalid access',
+    });
+  } else {
+    Order.find({ status: 'Received' }, (err, doc) => {
+      if (err) {
+        return res.status(403).json({
+          message: 'No data',
+        });
+      } else {
+        return res.status(200).json({
+          message: 'success',
+          body: {
+            orderList: doc,
+          },
+        });
+      }
+    });
+  }
+  // console.log('do something here');
+  // res.json({
+  //   message: 'success',
+  // });
 };
 
 /*
@@ -159,10 +206,27 @@ exports.getSoldList = (req, res) => {
 */
 
 exports.postOrderManage = (req, res) => {
-  console.log('do something here');
-  res.json({
-    message: 'success',
-  });
+  if (!req.decoded.admin) {
+    return res.status(403).json({
+      message: 'Invalid access',
+    });
+  } else {
+    Order.findOneAndUpdate(
+      { id: req.body.id },
+      { status: req.body.status },
+      (err, doc) => {
+        if (err) {
+          return res.status(403).json({
+            message: 'No data',
+          });
+        } else {
+          return res.status(200).json({
+            message: 'success',
+          });
+        }
+      }
+    );
+  }
 };
 
 /*
@@ -170,10 +234,26 @@ exports.postOrderManage = (req, res) => {
 */
 
 exports.getStoreInfo = (req, res) => {
-  console.log('do something here');
-  res.json({
-    message: 'success',
-  });
+  if (!req.decoded.admin) {
+    return res.status(403).json({
+      message: 'Invalid access',
+    });
+  } else {
+    Store.findOne((err, store_info) => {
+      if (err) {
+        return res.status(403).json({
+          message: 'No Store Info',
+        });
+      } else {
+        return res.status(200).json({
+          message: 'No Store Info',
+          body: {
+            storeInfo: store_info,
+          },
+        });
+      }
+    });
+  }
 };
 
 /*
@@ -184,8 +264,21 @@ exports.getStoreInfo = (req, res) => {
 */
 
 exports.putStoreInfo = (req, res) => {
-  console.log('do something here');
-  res.json({
-    message: 'success',
-  });
+  if (!req.decoded.admin) {
+    return res.status(403).json({
+      message: 'Invalid access',
+    });
+  } else {
+    Store.findOneAndUpdate({}, { time: req.body.time }, (err, doc) => {
+      if (err) {
+        return res.status(403).json({
+          message: 'No Store Info',
+        });
+      } else {
+        return res.status(200).json({
+          message: 'update success',
+        });
+      }
+    });
+  }
 };
