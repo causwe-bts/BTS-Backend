@@ -79,7 +79,8 @@ exports.getMenuList = (req, res) => {
 
 /*
     POST /api/menu/order
-    {
+    {   
+        order_id,
         orderer,
         order : [
           {
@@ -97,8 +98,9 @@ exports.getMenuList = (req, res) => {
     }
 */
 exports.postOrder = (req, res) => {
-  const { orderer, order, status } = req.body;
+  const { order_id, orderer, order, status } = req.body;
   const orderInfo = {
+    order_id,
     orderer,
     order,
     status,
