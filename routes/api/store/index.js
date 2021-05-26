@@ -4,8 +4,8 @@ router.post('/signup', controller.postSignUp);
 router.post('/signin', controller.postSignIn);
 router.get('/orderlist', controller.getOrderList);
 router.get('/soldlist', controller.getSoldList);
-router.post('/ordermanage', controller.postOrderManage);
+router.put('/ordermanage', controller.putOrderManage);
 router.get('/storeinfo', controller.getStoreInfo);
 router.put('/storeinfo', controller.putStoreInfo);
-router.post('/test', controller.test);
+
 module.exports = router;

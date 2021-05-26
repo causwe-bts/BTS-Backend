@@ -11,7 +11,8 @@ const Schema = mongoose.Schema;
     POST /api/store/signup
     {
         username,
-        password
+        password,
+        phonenumber
     }
 */
 
@@ -144,7 +145,12 @@ exports.getOrderList = (req, res) => {
   Order.find({ status: { $ne: 'Received' } }, (err, doc) => {
     if (err) {
       return res.status(409).json({
+        message: err.message,
+      });
+    } else if (doc == null) {
+      return res.status(200).json({
         message: 'No data',
+        orderList: doc,
       });
     } else {
       return res.status(200).json({
@@ -164,7 +170,13 @@ exports.getSoldList = (req, res) => {
   Order.find({ status: 'Received' }, (err, doc) => {
     if (err) {
       return res.status(409).json({
+        message: err.message,
+      });
+    } else if (doc == null) {
+      return res.status(200).json({
         message: 'No data',
+
+        orderList: doc,
       });
     } else {
       return res.status(200).json({
@@ -177,24 +189,30 @@ exports.getSoldList = (req, res) => {
 };
 
 /*
-      POST /api/menu/ordermanage
+      PUT /api/menu/ordermanage
       {
-          need specification
+          order_id,
+          status
       }
 */
 
-exports.postOrderManage = (req, res) => {
+exports.putOrderManage = (req, res) => {
   Order.findOneAndUpdate(
-    { id: req.body.id },
+    { order_id: req.body.order_id },
     { status: req.body.status },
     (err, doc) => {
       if (err) {
+        return res.status(409).json({
+          message: err.message,
+        });
+      } else if (doc == null) {
         return res.status(409).json({
           message: 'No data',
         });
       } else {
         return res.status(200).json({
           message: 'success',
+          body: doc,
         });
       }
     }
@@ -206,16 +224,22 @@ exports.postOrderManage = (req, res) => {
 */
 
 exports.getStoreInfo = (req, res) => {
-  Store.findOne((err, store_info) => {
+  Store.findOne((err, doc) => {
     if (err) {
       return res.status(409).json({
         message: 'No Store Info',
+      });
+    } else if (doc) {
+      return res.status(200).json({
+        message: 'No data',
+
+        storeInfo: doc,
       });
     } else {
       return res.status(200).json({
         message: 'success',
 
-        storeInfo: store_info,
+        storeInfo: doc,
       });
     }
   });
@@ -224,7 +248,7 @@ exports.getStoreInfo = (req, res) => {
 /*
     PUT /api/menu/storeinfo
     {
-        need specification
+        time
     }
 */
 
@@ -232,18 +256,16 @@ exports.putStoreInfo = (req, res) => {
   Store.findOneAndUpdate({}, { time: req.body.time }, (err, doc) => {
     if (err) {
       return res.status(409).json({
-        message: 'No Store Info',
+        message: err.message,
+      });
+    } else if (doc == null) {
+      return res.status(409).json({
+        message: 'No Data',
       });
     } else {
       return res.status(200).json({
         message: 'update success',
       });
     }
-  });
-};
-exports.test = (req, res) => {
-  Order.create(req.body);
-  return res.status(200).json({
-    message: req.body,
   });
 };
