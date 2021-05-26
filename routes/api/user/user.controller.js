@@ -6,12 +6,13 @@ const Order = require('../../../models/order');
     POST /api/user/signup
     {
         username,
-        password
+        password,
+        phonenumber
     }
 */
 
 exports.postSignUp = (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, phonenumber } = req.body;
   let newUser = null;
 
   // create a new user if does not exist
@@ -19,7 +20,7 @@ exports.postSignUp = (req, res) => {
     if (user) {
       throw new Error('username exists');
     } else {
-      return User.create(username, password);
+      return User.create(username, password, phonenumber);
     }
   };
 

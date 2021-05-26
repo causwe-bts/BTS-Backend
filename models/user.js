@@ -11,7 +11,7 @@ const User = new Schema({
 });
 
 // create new User document
-User.statics.create = function (username, password) {
+User.statics.create = function (username, password, phonenumber) {
   const encrypted = crypto
     .createHmac('sha1', config.secret)
     .update(password)
@@ -20,6 +20,7 @@ User.statics.create = function (username, password) {
   const user = new this({
     username,
     password: encrypted,
+    phonenumber,
   });
 
   // return the Promise
