@@ -143,7 +143,7 @@ exports.postSignIn = (req, res) => {
 exports.getOrderList = (req, res) => {
   Order.find({ status: { $ne: 'Received' } }, (err, doc) => {
     if (err) {
-      return res.status(403).json({
+      return res.status(409).json({
         message: 'No data',
       });
     } else {
@@ -163,7 +163,7 @@ exports.getOrderList = (req, res) => {
 exports.getSoldList = (req, res) => {
   Order.find({ status: 'Received' }, (err, doc) => {
     if (err) {
-      return res.status(403).json({
+      return res.status(409).json({
         message: 'No data',
       });
     } else {
@@ -189,7 +189,7 @@ exports.postOrderManage = (req, res) => {
     { status: req.body.status },
     (err, doc) => {
       if (err) {
-        return res.status(403).json({
+        return res.status(409).json({
           message: 'No data',
         });
       } else {
@@ -208,7 +208,7 @@ exports.postOrderManage = (req, res) => {
 exports.getStoreInfo = (req, res) => {
   Store.findOne((err, store_info) => {
     if (err) {
-      return res.status(403).json({
+      return res.status(409).json({
         message: 'No Store Info',
       });
     } else {
@@ -231,7 +231,7 @@ exports.getStoreInfo = (req, res) => {
 exports.putStoreInfo = (req, res) => {
   Store.findOneAndUpdate({}, { time: req.body.time }, (err, doc) => {
     if (err) {
-      return res.status(403).json({
+      return res.status(409).json({
         message: 'No Store Info',
       });
     } else {
