@@ -6,9 +6,5 @@ const Store = new Schema({
   time: String,
   location: String,
 });
-Store.statics.findOneByStatus = function (_status) {
-  return this.findOne({
-    status: _status,
-  }).exec();
-};
+
 module.exports = mongoose.model('Store', Store);

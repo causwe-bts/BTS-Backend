@@ -1,15 +1,11 @@
 const jwt = require('jsonwebtoken');
 const User = require('../../../models/user');
 const Store = require('../../../models/store');
+const Order = require('../../../models/order');
 const mongoose = require('mongoose');
 const e = require('express');
 const Schema = mongoose.Schema;
 
-const OrderList = new Schema({
-  id: Number,
-  status: String,
-});
-Order = mongoose.model('OrderList', OrderList);
 //////////////////////////////
 /*
     POST /api/store/signup
@@ -145,26 +141,19 @@ exports.postSignIn = (req, res) => {
 */
 
 exports.getOrderList = (req, res) => {
-  if (!req.decoded.admin) {
-    return res.status(403).json({
-      message: 'Invalid access',
-    });
-  } else {
-    Order.find({ status: { $ne: 'Received' } }, (err, doc) => {
-      if (err) {
-        return res.status(403).json({
-          message: 'No data',
-        });
-      } else {
-        return res.status(200).json({
-          message: 'success',
-          body: {
-            orderList: doc,
-          },
-        });
-      }
-    });
-  }
+  Order.find({ status: { $ne: 'Received' } }, (err, doc) => {
+    if (err) {
+      return res.status(403).json({
+        message: 'No data',
+      });
+    } else {
+      return res.status(200).json({
+        message: 'success',
+
+        orderList: doc,
+      });
+    }
+  });
 };
 
 /*
@@ -172,30 +161,19 @@ exports.getOrderList = (req, res) => {
 */
 
 exports.getSoldList = (req, res) => {
-  if (!req.decoded.admin) {
-    return res.status(403).json({
-      message: 'Invalid access',
-    });
-  } else {
-    Order.find({ status: 'Received' }, (err, doc) => {
-      if (err) {
-        return res.status(403).json({
-          message: 'No data',
-        });
-      } else {
-        return res.status(200).json({
-          message: 'success',
-          body: {
-            orderList: doc,
-          },
-        });
-      }
-    });
-  }
-  // console.log('do something here');
-  // res.json({
-  //   message: 'success',
-  // });
+  Order.find({ status: 'Received' }, (err, doc) => {
+    if (err) {
+      return res.status(403).json({
+        message: 'No data',
+      });
+    } else {
+      return res.status(200).json({
+        message: 'success',
+
+        orderList: doc,
+      });
+    }
+  });
 };
 
 /*
@@ -206,27 +184,21 @@ exports.getSoldList = (req, res) => {
 */
 
 exports.postOrderManage = (req, res) => {
-  if (!req.decoded.admin) {
-    return res.status(403).json({
-      message: 'Invalid access',
-    });
-  } else {
-    Order.findOneAndUpdate(
-      { id: req.body.id },
-      { status: req.body.status },
-      (err, doc) => {
-        if (err) {
-          return res.status(403).json({
-            message: 'No data',
-          });
-        } else {
-          return res.status(200).json({
-            message: 'success',
-          });
-        }
+  Order.findOneAndUpdate(
+    { id: req.body.id },
+    { status: req.body.status },
+    (err, doc) => {
+      if (err) {
+        return res.status(403).json({
+          message: 'No data',
+        });
+      } else {
+        return res.status(200).json({
+          message: 'success',
+        });
       }
-    );
-  }
+    }
+  );
 };
 
 /*
@@ -234,26 +206,19 @@ exports.postOrderManage = (req, res) => {
 */
 
 exports.getStoreInfo = (req, res) => {
-  if (!req.decoded.admin) {
-    return res.status(403).json({
-      message: 'Invalid access',
-    });
-  } else {
-    Store.findOne((err, store_info) => {
-      if (err) {
-        return res.status(403).json({
-          message: 'No Store Info',
-        });
-      } else {
-        return res.status(200).json({
-          message: 'No Store Info',
-          body: {
-            storeInfo: store_info,
-          },
-        });
-      }
-    });
-  }
+  Store.findOne((err, store_info) => {
+    if (err) {
+      return res.status(403).json({
+        message: 'No Store Info',
+      });
+    } else {
+      return res.status(200).json({
+        message: 'success',
+
+        storeInfo: store_info,
+      });
+    }
+  });
 };
 
 /*
@@ -264,21 +229,21 @@ exports.getStoreInfo = (req, res) => {
 */
 
 exports.putStoreInfo = (req, res) => {
-  if (!req.decoded.admin) {
-    return res.status(403).json({
-      message: 'Invalid access',
-    });
-  } else {
-    Store.findOneAndUpdate({}, { time: req.body.time }, (err, doc) => {
-      if (err) {
-        return res.status(403).json({
-          message: 'No Store Info',
-        });
-      } else {
-        return res.status(200).json({
-          message: 'update success',
-        });
-      }
-    });
-  }
+  Store.findOneAndUpdate({}, { time: req.body.time }, (err, doc) => {
+    if (err) {
+      return res.status(403).json({
+        message: 'No Store Info',
+      });
+    } else {
+      return res.status(200).json({
+        message: 'update success',
+      });
+    }
+  });
+};
+exports.test = (req, res) => {
+  Order.create(req.body);
+  return res.status(200).json({
+    message: req.body,
+  });
 };

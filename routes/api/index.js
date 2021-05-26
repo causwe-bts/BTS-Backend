@@ -16,6 +16,7 @@ router.use('/menu', authMiddleware);
 router.use('/menu', menu);
 
 // for store
+router.use('/store', authMiddleware);
 router.use('/store', store);
 
 module.exports = router;
