@@ -49,15 +49,20 @@ exports.postSignUp = (req, res) => {
   // respond to the client
   const respond = (isAdmin) => {
     res.json({
-      message: 'registered successfully',
-      admin: isAdmin ? true : false,
+      message: 'success',
+      body: {
+        admin: isAdmin ? true : false,
+      },
     });
   };
 
   // run when there is an error (username exists)
   const onError = (error) => {
     res.status(403).json({
-      message: error.message,
+      message: 'unsuccess',
+      body: {
+        error: error.message,
+      },
     });
   };
 
@@ -121,15 +126,20 @@ exports.postSignIn = (req, res) => {
   // respond the token
   const respond = (token) => {
     res.json({
-      message: 'logged in successfully',
-      token,
+      message: 'success',
+      body: {
+        token,
+      },
     });
   };
 
   // error occured
   const onError = (error) => {
     res.status(403).json({
-      message: error.message,
+      message: 'unsuccess',
+      body: {
+        error: error.message,
+      },
     });
   };
 
