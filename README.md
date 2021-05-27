@@ -15,6 +15,7 @@
   		serverURL: 'http(s)://domain:port',
 	};
 }
+7.MongoDB 설치하고 사용자 세팅 필요(구글링 필요)
 </pre>
 
 <h1>코드 작성전 유의사항</h1>
