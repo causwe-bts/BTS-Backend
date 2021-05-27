@@ -1,34 +1,30 @@
 const User = require('../../../models/user');
 
 /* 
-    GET /api/userinfo/:username
+    GET /api/userinfo/
 */
 
 exports.check = (req, res) => {
   let user = req.decoded.username;
-  let query_user = req.params.username;
 
   const UserChecker = (userInfo) => {
-    if (!query_user) {
+    if (!userInfo) {
       // user does not exist
-      throw new Error('parameter not exist');
+      throw new Error('user not exist');
     } else {
-      // user exists, check with token name
-      if (user !== query_user) {
-        throw new Error('cannot refer others userinfo');
-      } else {
-        return userInfo;
-      }
+      return userInfo;
     }
   };
 
   const respond = (userInfo) => {
     res.json({
       message: 'success',
-      userInfo: {
-        admin: userInfo.admin,
-        username: userInfo.username,
-        phonenumber: userInfo.phonenumber,
+      body: {
+        userInfo: {
+          admin: userInfo.admin,
+          username: userInfo.username,
+          phonenumber: userInfo.phonenumber,
+        },
       },
     });
   };
@@ -37,12 +33,12 @@ exports.check = (req, res) => {
   const onError = (error) => {
     console.log(error);
     res.status(403).json({
-      message: error.message,
+      message: 'unsuccess',
+      body: {
+        error: error.message,
+      },
     });
   };
 
-  User.findOneByUsername(query_user)
-    .then(UserChecker)
-    .then(respond)
-    .catch(onError);
+  User.findOneByUsername(user).then(UserChecker).then(respond).catch(onError);
 };

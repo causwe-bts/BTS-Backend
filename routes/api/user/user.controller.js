@@ -44,14 +44,19 @@ exports.postSignUp = (req, res) => {
   const respond = (isAdmin) => {
     res.json({
       message: 'success',
-      admin: isAdmin ? true : false,
+      body: {
+        admin: isAdmin ? true : false,
+      },
     });
   };
 
   // run when there is an error (username exists)
   const onError = (error) => {
-    res.status(409).json({
-      message: error.message,
+    res.status(403).json({
+      message: 'unsuccess',
+      body: {
+        error: error.message,
+      },
     });
   };
 
@@ -116,14 +121,19 @@ exports.postSignIn = (req, res) => {
   const respond = (token) => {
     res.json({
       message: 'success',
-      token,
+      body: {
+        token,
+      },
     });
   };
 
   // error occured
   const onError = (error) => {
     res.status(403).json({
-      message: error.message,
+      message: 'unsuccess',
+      body: {
+        error: error.message,
+      },
     });
   };
 
@@ -143,14 +153,19 @@ exports.getOrderList = (req, res) => {
   const respond = (userOrders) => {
     res.json({
       message: 'success',
-      userOrders,
+      body: {
+        userOrders,
+      },
     });
   };
 
   // error occured
   const onError = (error) => {
     res.status(403).json({
-      message: error.message,
+      message: 'unsuccess',
+      body: {
+        error: error.message,
+      },
     });
   };
 
