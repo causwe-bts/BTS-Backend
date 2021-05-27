@@ -108,7 +108,11 @@ exports.getMenuList = (req, res) => {
     }
 */
 exports.postOrder = (req, res) => {
+  const { username } = req.decoded;
   const { orderer, order, status } = req.body;
+
+  console.log(username, orderer);
+
   const orderInfo = {
     orderer,
     order,
@@ -132,5 +136,15 @@ exports.postOrder = (req, res) => {
       },
     });
   };
-  Order.create(orderInfo).then(respond).catch(onError);
+
+  if (username !== orderer) {
+    res.json({
+      message: 'unsuccess',
+      body: {
+        error: 'cannot order by other name',
+      },
+    });
+  } else {
+    Order.create(orderInfo).then(respond).catch(onError);
+  }
 };
