@@ -56,7 +56,7 @@ exports.postSignUp = (req, res) => {
 
   // run when there is an error (username exists)
   const onError = (error) => {
-    res.status(409).json({
+    res.status(403).json({
       message: error.message,
     });
   };
@@ -144,19 +144,22 @@ exports.postSignIn = (req, res) => {
 exports.getOrderList = (req, res) => {
   Order.find({ status: { $ne: 'Received' } }, (err, doc) => {
     if (err) {
-      return res.status(409).json({
+      return res.status(403).json({
         message: err.message,
       });
     } else if (doc == null) {
       return res.status(200).json({
         message: 'No data',
-        orderList: doc,
+        body: {
+          orderList: doc,
+        },
       });
     } else {
       return res.status(200).json({
         message: 'success',
-
-        orderList: doc,
+        body: {
+          orderList: doc,
+        },
       });
     }
   });
@@ -169,19 +172,22 @@ exports.getOrderList = (req, res) => {
 exports.getSoldList = (req, res) => {
   Order.find({ status: 'Received' }, (err, doc) => {
     if (err) {
-      return res.status(409).json({
-        message: err.message,
+      return res.status(403).json({
+        message: 'unsuccess',
+        body: {
+          error: err.message,
+        },
       });
     } else if (doc == null) {
       return res.status(200).json({
-        message: 'No data',
-
-        orderList: doc,
+        message: 'success',
+        body: {
+          orderList: doc,
+        },
       });
     } else {
       return res.status(200).json({
         message: 'success',
-
         orderList: doc,
       });
     }
@@ -202,17 +208,25 @@ exports.putOrderManage = (req, res) => {
     { status: req.body.status },
     (err, doc) => {
       if (err) {
-        return res.status(409).json({
-          message: err.message,
+        return res.status(403).json({
+          message: 'unsuccess',
+          body: {
+            error: err.message,
+          },
         });
       } else if (doc == null) {
-        return res.status(409).json({
-          message: 'No data',
+        return res.status(403).json({
+          message: 'success',
+          body: {
+            order: doc,
+          },
         });
       } else {
         return res.status(200).json({
           message: 'success',
-          body: doc,
+          body: {
+            order: doc,
+          },
         });
       }
     }
@@ -226,20 +240,25 @@ exports.putOrderManage = (req, res) => {
 exports.getStoreInfo = (req, res) => {
   Store.findOne((err, doc) => {
     if (err) {
-      return res.status(409).json({
-        message: 'No Store Info',
+      return res.status(403).json({
+        message: 'unsuccess',
+        body: {
+          error: err.message,
+        },
       });
     } else if (doc) {
       return res.status(200).json({
         message: 'No data',
-
-        storeInfo: doc,
+        body: {
+          storeInfo: doc,
+        },
       });
     } else {
       return res.status(200).json({
         message: 'success',
-
-        storeInfo: doc,
+        body: {
+          storeInfo: doc,
+        },
       });
     }
   });
@@ -255,16 +274,22 @@ exports.getStoreInfo = (req, res) => {
 exports.putStoreInfo = (req, res) => {
   Store.findOneAndUpdate({}, { time: req.body.time }, (err, doc) => {
     if (err) {
-      return res.status(409).json({
-        message: err.message,
+      return res.status(403).json({
+        message: 'unsuccess',
+        body: {
+          error: err.message,
+        },
       });
     } else if (doc == null) {
-      return res.status(409).json({
-        message: 'No Data',
+      return res.status(403).json({
+        message: 'unsuccess',
+        body: {
+          error: 'no data',
+        },
       });
     } else {
       return res.status(200).json({
-        message: 'update success',
+        message: 'success',
       });
     }
   });
