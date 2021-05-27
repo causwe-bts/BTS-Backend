@@ -7,7 +7,6 @@ const OrderInfo = new Schema({
 });
 
 const Order = new Schema({
-  order_id: String,
   orderer: String,
   order: [OrderInfo],
   datetime: {
@@ -19,10 +18,9 @@ const Order = new Schema({
 
 // create new User document
 Order.statics.create = function (orderInfo) {
-  const { order_id, orderer, order, status } = orderInfo;
+  const { orderer, order, status } = orderInfo;
 
   const newOrder = new this({
-    order_id: order_id,
     orderer: orderer,
     order: order,
     status: status,
