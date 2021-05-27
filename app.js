@@ -63,6 +63,7 @@ app.use(function (err, req, res) {
 mongoose.connect(config.mongodbUri, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
+  useCreateIndex: true,
 });
 const db = mongoose.connection;
 db.on('error', console.error);

@@ -4,9 +4,9 @@ const crypto = require('crypto');
 const config = require('../config');
 
 const User = new Schema({
-  username: String,
-  password: String,
-  phonenumber: String,
+  username: { type: String, required: true, unique: true },
+  password: { type: String, required: true },
+  phonenumber: { type: String, required: true },
   admin: { type: Boolean, default: false },
 });
 
