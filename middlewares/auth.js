@@ -8,8 +8,10 @@ const authMiddleware = (req, res, next) => {
   // token does not exist
   if (!token) {
     return res.status(403).json({
-      success: false,
-      message: 'not logged in',
+      message: 'unsuccess',
+      body: {
+        error: 'not logged in',
+      },
     });
   }
 
