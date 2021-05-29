@@ -214,7 +214,7 @@ exports.getSoldList = (req, res) => {
 
 exports.putOrderManage = (req, res) => {
   Order.findOneAndUpdate(
-    { order_id: req.body.order_id },
+    { _id: req.body.order_id },
     { status: req.body.status },
     (err, doc) => {
       if (err) {
