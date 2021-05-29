@@ -17,5 +17,5 @@ router.put('/ordermanage', controller.putOrderManage);
 router.use('/storeinfo', authMiddleware_store);
 router.get('/storeinfo', controller.getStoreInfo);
 router.put('/storeinfo', controller.putStoreInfo);
-
+router.put('/storeinfoadd', controller.putStoreInfoAdd);
 module.exports = router;

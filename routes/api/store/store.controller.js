@@ -256,7 +256,7 @@ exports.getStoreInfo = (req, res) => {
           error: err.message,
         },
       });
-    } else if (doc) {
+    } else if (doc == null) {
       return res.status(200).json({
         message: 'No data',
         body: {
@@ -300,6 +300,33 @@ exports.putStoreInfo = (req, res) => {
     } else {
       return res.status(200).json({
         message: 'success',
+      });
+    }
+  });
+};
+
+exports.putStoreInfoAdd = (req, res) => {
+  const { name, time, location } = req.body;
+
+  const store = new Store({
+    name: req.body.name,
+    time: req.body.time,
+    location: req.body.location,
+  });
+  store.save((err) => {
+    if (err) {
+      return res.status(403).json({
+        message: 'unsuccess',
+        body: {
+          error: err.message,
+        },
+      });
+    } else {
+      return res.status(200).json({
+        message: 'success',
+        body: {
+          store: store,
+        },
       });
     }
   });
